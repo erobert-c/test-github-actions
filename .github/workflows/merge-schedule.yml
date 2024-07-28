@@ -2,12 +2,7 @@ name: Merge Schedule
 on:
   pull_request:
     types:
-      - opened
       - labeled
-  check_suite:
-    types:
-      - completed
-
 
 jobs:
   automerge:
