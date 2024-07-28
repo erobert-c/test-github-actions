@@ -1,1 +1,1 @@
-repository for testing github actions.
+Repository for testing github actions.
