@@ -1,0 +1,21 @@
+name: Auto label PRs
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  autolabel:
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add Label
+        run: |
+          gh pr list --state open --json number,updatedAt --jq '.[] | select(.updatedAt < "'"$(date -d '7 days ago' -u '+%Y-%m-%dT%H:%M:%SZ')"'" )' | \
+          jq '.number' | \
+          xargs -I {} gh pr edit {} --add-label "automerge"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}

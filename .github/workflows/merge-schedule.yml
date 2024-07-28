@@ -1,0 +1,26 @@
+name: Merge Schedule
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+  check_suite:
+    types:
+      - completed
+
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - id: automerge
+        name: automerge
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'automerge')
+        run: gh pr merge $NUMBER --auto --squash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+
