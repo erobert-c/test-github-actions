@@ -9,6 +9,7 @@ jobs:
   autolabel:
     permissions:
       pull-requests: write
+      actions: write
     runs-on: ubuntu-latest
     steps:
       - name: Add Label
